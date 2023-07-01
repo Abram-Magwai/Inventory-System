@@ -1,0 +1,79 @@
+﻿#page-title-container {
+    margin: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-button {
+    padding: 6px 20px;
+    background-color: #00639A;
+    border-radius: 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .nav-button:hover {
+        color: #FFFFFF;
+    }
+
+.action-button {
+    width: 72px;
+    height: 30px;
+    border-radius: 5px;
+    background: #00639A;
+    color: #FFFFFF;
+    font-size: 15px;
+    border: none;
+}
+
+#inventory-summary {
+    margin: 26px 0;
+}
+
+#updates-container {
+    border-radius: 5px;
+    background: rgba(217, 217, 217, 0.41);
+    max-height: 100px;
+    padding: 7px 5px;
+}
+
+    #updates-container p {
+        margin: 0;
+    }
+
+form {
+    margin-top: 26px;
+    margin-bottom: 10px;
+}
+
+input, select {
+    height: 30px;
+    margin: 5px 0;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    background-color: rgba(217, 217, 217, 0.41);
+}
+
+td {
+    padding-bottom: 8px;
+}
+
+#delete-button {
+    background-color: rgba(154, 0, 0, 0.72);
+}
+
+@media only screen and (max-width: 600px) {
+    table td {
+        font-size: 10px;
+    }
+
+    .action-button {
+        width: 56px;
+    }
+}

@@ -1,0 +1,145 @@
+﻿@using inventory.view.Controllers;
+@using inventory.view.Entities;
+@using inventory.view.Services;
+@model ShipmentModel;
+@{
+    ViewData["Title"] = "ShipInventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<InventoryModel> inventories = ViewBag.Inventories;
+}
+<style>
+    .page-title {
+        margin: 20px 0px;
+    }
+
+    .image-main-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .action-image-container, .action-image {
+        width: 150px;
+        height: 120px;
+    }
+
+    .action-image {
+        object-fit: cover;
+    }
+
+    form {
+        margin-top: 35px;
+    }
+
+    .input-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 350px;
+    }
+
+    label {
+        padding-right: 5px;
+    }
+
+    input, select {
+        width: 280px;
+        height: 35px;
+        margin: 5px 0;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .form-actions-container {
+        margin-top: 25px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .nav-button {
+        padding: 0px 15px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(154, 0, 0, 0.72);
+        border-radius: 5px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+        .nav-button:hover {
+            color: #FFFFFF;
+        }
+
+    .action-button {
+        height: 35px;
+        border-radius: 5px;
+        background: #00639A;
+        color: #FFFFFF;
+        font-size: 15px;
+        border: none;
+        margin-left: 5px;
+    }
+
+    @@media only screen and (max-width: 320px) {
+        .input-container {
+            min-width: 0px;
+        }
+
+        input, select {
+            width: 210px;
+        }
+    }
+</style>
+<h5 class="page-title">Shipping inventory</h5>
+<div class="image-main-container">
+    <div class="action-image-container">
+        <img src="~/images/shipping.png" class="action-image" />
+    </div>
+</div>
+<div class="form-container">
+    <form asp-controller="Inventory" asp-action="Index">
+        <div class="input-container">
+            <label asp-for="InventoryName"></label>
+            <select asp-for="InventoryName" id="name">
+                @for (int i = 0; i < inventories.Count; i++)
+                {
+                    <option value=inventories[i].Name>@inventories[i].Name</option>
+                }
+
+            </select>
+        </div>
+
+        <div>
+            <span asp-validation-for=Quantity class="text-danger"></span>
+        </div>
+        <div class="input-container">
+            <label asp-for="Quantity"></label>
+            <input asp-for="Quantity" id="quantity" />
+        </div>
+
+        <div>
+            <span asp-validation-for=Customer class="text-danger"></span>
+        </div>
+        <div class="input-container">
+            <label asp-for="Customer"></label>
+            <input type="text" asp-for="Customer" id="customer" />
+        </div>
+        <div class="form-actions-container">
+            <a asp-controller="Inventory" asp-action="Index" class="nav-button">Cancel</a>
+            <button type="submit" class="action-button">Ship Inventory</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <!-- Include other necessary libraries here -->
+}

@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .page-title {
+        margin: 20px 0px;
+    }
+    .menu-item-container {
+        min-width: 332px;
+        height: 70px;
+        border-radius: 5px;
+        background: rgba(217, 217, 217, 0.41);
+        display: flex;
+        align-items: center;
+        padding-left: 6px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+    .menu-item-image-container {
+        height: 55px;
+        width: 55px;
+        margin-right: 8px;
+    }
+    .menu-item-image {
+        object-fit: cover;
+        height: 55px;
+        width: 55px;
+    }
+    .menu-item-name {
+        font-size: 17px;
+    }
+    .menu-link {
+        text-decoration: none;
+        color: #000000;
+    }
+    #menu-info {
+        font-size: 10px;
+    }
+</style>
+
+<h5 class="page-title">Menu</h5>
+
+<a class="menu-link" asp-controller="inventory">
+    <div class="menu-item-container">
+        <div class="menu-item-image-container">
+            <img class="menu-item-image" src="~/images/inventory.png" />
+        </div>
+        <div class="menu-item-name">
+            <div>Inventory</div>
+            <span id="menu-info">Creating and shipping inventory, invntory list</span>
+        </div>
+    </div>
+</a>
+
+<a class="menu-link" asp-action="">
+    <div class="menu-item-container">
+        <div class="menu-item-image-container">
+            <img class="menu-item-image" src="~/images/reports.png" />
+        </div>
+        <div class="menu-item-name">
+            <div>Inventory Reports</div>
+            <span id="menu-info">Generating inventory reports</span>
+        </div>
+    </div>
+</a>
+
+<a class="menu-link" asp-controller="Settings" asp-action="Index">
+    <div class="menu-item-container">
+        <div class="menu-item-image-container">
+            <img class="menu-item-image" src="~/images/settings.jpg" />
+        </div>
+        <div class="menu-item-name">
+            <div>Settings</div>
+            <span id="menu-info">Creating supplier, setting inventory restock plan</span>
+        </div>
+    </div>
+</a>

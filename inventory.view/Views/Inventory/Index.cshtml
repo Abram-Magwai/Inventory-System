@@ -1,0 +1,142 @@
+﻿@using inventory.view.Controllers
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    InventorySummary inventorySummary = ViewBag.Summaries;
+    List<string> lowStock = ViewBag.LowStock;
+    List<InventoryModel> inventories = ViewBag.Inventories;
+}
+
+<style>
+    #page-title-container {
+        margin: 20px 0px;
+        display: flex;
+        justify-content:space-between;
+    }
+    .nav-button {
+        padding: 6px 20px;
+        background-color: #00639A;
+        border-radius: 5px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .nav-button:hover {
+        color: #FFFFFF;
+    }
+    .action-button {
+        width: 72px;
+        height: 30px;
+        border-radius: 5px;
+        background: #00639A;
+        color: #FFFFFF;
+        font-size: 15px;
+        border: none;
+    }
+    a {
+        padding: 5px;
+    }
+    #inventory-summary {
+        margin: 26px 0;
+    }
+    #updates-container {
+        border-radius: 5px;
+        background: rgba(217, 217, 217, 0.41);
+        max-height: 100px;
+        padding: 7px 5px;
+    }
+    #updates-container p {
+        margin: 0;
+    }
+    form {
+        margin-top: 26px;
+        margin-bottom: 10px;
+    }
+    input, select {
+        height: 30px;
+        margin: 5px 0;
+    }
+    table {
+        width: 100%;
+    }
+    th {
+        background-color: rgba(217, 217, 217, 0.41);
+    }
+    td {
+        padding-bottom: 8px;
+    }
+    #delete-button {
+        background-color: rgba(154, 0, 0, 0.72);
+    }
+    @@media only screen and (max-width: 600px) {
+        table td {
+            font-size: 10px;
+        }
+        .action-button {
+            width: 56px;
+        }
+    }
+</style>
+<div id="page-title-container">
+    <h5>Inventory</h5>
+    <div>
+        <a asp-action="Add" class="nav-button">Add</a>
+        <a asp-controller="shipping" asp-action="create" class="nav-button">Ship</a>
+    </div>
+</div>
+<div id="inventory-summary">
+    <h6>Total Inventory: @inventorySummary.TotalInventory</h6>
+    <h6>Total Inventory (R): @inventorySummary.TotalCost</h6>
+</div>
+
+<div id="updates-container">
+    <h6>Inventory Updates</h6>
+    @if(lowStock.Count == 0)
+    {
+        <span>No updates available</span>
+    }else {
+        for(int i = 0; i < lowStock.Count; i++)
+        {
+            <p>@lowStock[i]</p>
+        }
+    }
+</div>
+
+<form asp-controller="Inventory" asp-action="SearchFilter" method="post">
+    <select name="filter" id="inventory-name">
+        <option value="name">Name</option>
+        <option value="type">Type</option>
+    </select>
+    <input type="text" name="text" placeholder="Search by filter" />
+    <button type="submit" class="action-button">Search</button>
+</form>
+@if (ViewBag.CanReset)
+{
+    <form asp-controller="Inventory" asp-action="ResetSearchFilter" method="post">
+        <button type="submit" class="action-button">Reset</button>
+    </form>
+}
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+        <th>Actions</th>
+    </tr>
+    @for(int i = 0; i < inventories.Count; i++)
+    {
+        var inventory = inventories[i];
+        <tr>
+            <td>@inventory.Name</td>
+            <td>@inventory.Type</td>
+            <td>@inventory.Quantity</td>
+            <td>@inventory.Cost</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id=inventory.Id},new { @class="action-button"})
+                @Html.ActionLink("Delete", "Delete", new {id=inventory.Id},new { @class="action-button", @id="delete-button"})
+            </td>
+        </tr>
+    }
+</table>

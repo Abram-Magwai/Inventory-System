@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - inventory.view</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/inventory.view.styles.css" asp-append-version="true" />
+</head>
+<style>
+    #company-name {
+        color: #000;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    #logout-button {
+        height: 30px;
+        border-radius: 5px;
+        background: rgba(154, 0, 0, 0.72);
+        color: #FFF;
+        border:none;
+        font-size: 15px;
+        font-family: Inter;
+    }
+    header {
+        min-width: 360px;
+        height: 73px;
+        background: #F5F5F5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 14px;
+    }
+    .container {
+        padding-left: 14px;
+        padding-left: 14px;
+    }
+    a {
+        text-decoration: none;
+    }
+</style>
+<body>
+    <header>
+            <div>
+            <a asp-controller="Home" asp-action="Index"><h1 id="company-name">Inventory</h1></a>
+            </div>
+            <div>
+                @*<button id="logout-button">Logout</button>*@
+            </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - MagwaiTech
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

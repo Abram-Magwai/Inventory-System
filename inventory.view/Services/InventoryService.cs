@@ -9,11 +9,13 @@ namespace inventory.view.Services
     {
         private readonly IMongoRepository<Inventory> _inventoriesRepository;
         private readonly IMongoRepository<Supplier> _suppliersRepository;
+        private readonly IMongoRepository<Restock> _restockPlansRepository;
 
-        public InventoryService(IMongoRepository<Inventory> inventoriesRepository, IMongoRepository<Supplier> supplierRepository)
+        public InventoryService(IMongoRepository<Inventory> inventoriesRepository, IMongoRepository<Supplier> supplierRepository, IMongoRepository<Restock> restockPlansRepository)
         {
             _inventoriesRepository = inventoriesRepository;
             _suppliersRepository = supplierRepository;
+            _restockPlansRepository = restockPlansRepository;
         }
 
         public async Task<InventoryModel?> GetInventoryById(string id)
@@ -61,10 +63,18 @@ namespace inventory.view.Services
             return inventoryModels;
         }
 
-        public Task<List<String>> GetUpdates()
+        public async Task<List<String>> GetUpdates()
         {
             //check restock rules agains inventoryQuantity, check for everyshipment
-            return Task.Run(() => new List<string>());
+            List<Restock> restocks = await _restockPlansRepository.GetAsync();
+            if (restocks == null) return new List<string>();
+            List<string> updates = new List<string>();
+            restocks.ForEach(async restock => {
+                Inventory inventory = (await _inventoriesRepository.GetAsync(restock.InventoryId))!;
+                if (inventory == null) return;
+                updates.Add($"{inventory.Name} is running low, {restock.Quantity - inventory.Quantity} units in short");
+            });
+            return updates;
         }
 
         public async Task<bool> New(InventoryModel inventoryModel)

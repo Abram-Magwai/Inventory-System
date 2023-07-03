@@ -1,7 +1,6 @@
 ﻿@model RestockModel
 @{
     ViewData["Title"] = "Edit Restock plan";
-    List<InventoryModel> inventories = ViewBag.Inventories;
 }
 <style>
     .page-title {
@@ -103,12 +102,7 @@
         </div>
         <div class="input-container">
             <label asp-for="Name"></label>
-            <select asp-for="Name" id="supplier">
-                @for (int i = 0; i < inventories.Count; i++)
-                {
-                    <option value="@inventories[0].Name">@inventories[i].Name</option>
-                }
-            </select>
+            <input type="text" asp-for="Name" readonly/>
         </div>
         <div>
             <span asp-validation-for=Quantity class="text-danger"></span>

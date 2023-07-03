@@ -31,8 +31,9 @@ namespace inventory.view.Services
             });
             return restockModels;
         }
-        public async Task<RestockModel> GetRestockByInventoryId(string id) {
-            Restock restock = (Restock)_restockRepository.AsQueryable().Where(s => s.InventoryId == id);
+        public async Task<RestockModel?> GetRestockByInventoryId(string id) {
+            Restock restock = (await _restockRepository.GetAsync(id))!;
+            if (restock == null) return null;
             string inventoryName = (await _inventoryRepository.GetAsync(restock.InventoryId))!.Name;
             return new RestockModel { Id = restock.Id, Name = inventoryName, Quantity = restock.Quantity};
         }
@@ -46,14 +47,19 @@ namespace inventory.view.Services
             return true;
         }
 
-        public Task<bool> Update(RestockModel restockModel)
+        public async Task<bool> Update(RestockModel restockModel)
         {
-            throw new NotImplementedException();
+            Restock restock = (await _restockRepository.GetAsync(restockModel.Id!))!;
+            if(restock == null) return false;
+            restock.Quantity = restockModel.Quantity;
+            await _restockRepository.UpdateAsync(restock.Id, restock);
+            return true;
         }
 
-        public Task<bool> Delete(string id)
+        public async Task<bool> Delete(string id)
         {
-            throw new NotImplementedException();
+            await _restockRepository.RemoveAsync(id);
+            return true;
         }
     }
 }

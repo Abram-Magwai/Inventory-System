@@ -16,18 +16,22 @@ namespace inventory.view.Services
         }
         public async Task<bool> Create(ShipmentModel shipmentModel)
         {
-            string inventoryId = _inventoriesRepository.AsQueryable().Where(inventory => inventory.Name.Equals(shipmentModel.InventoryName)).FirstOrDefault()!.Id;
+            Inventory inventory = (await _inventoriesRepository.GetAsync(shipmentModel.InventoryId))!;
 
-            if (inventoryId == null) return false;
-
-            var shipment = new Shipment {
-                InventoryId = inventoryId,
-                Customer = shipmentModel.Customer,
-                Quantity = shipmentModel.Quantity,
-                ShippingDate = DateTime.Now
-            };
-            await _shipmentsRepository.CreateAsync(shipment);
+            if (inventory == null) return false;
+            if (inventory.Quantity == shipmentModel.Quantity)
+                await _inventoriesRepository.RemoveAsync(inventory.Id);
+            else
+            {
+                inventory.Quantity -= shipmentModel.Quantity;
+                await _inventoriesRepository.UpdateAsync(inventory.Id, inventory);
+            }
             return true;
+        }
+        public bool InventoryIsAvailable(string inventoryName, int quantity)
+        {
+            int available = _inventoriesRepository.AsQueryable().Where(inventory => inventory.Name == inventoryName).Sum(inventory => inventory.Quantity);
+            return quantity <= available;
         }
     }
 }

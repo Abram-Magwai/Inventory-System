@@ -81,7 +81,7 @@
     <h5>Inventory</h5>
     <div>
         <a asp-action="Add" class="nav-button">Add</a>
-        <a asp-controller="shipping" asp-action="create" class="nav-button">Ship</a>
+        <a asp-controller="shipping" asp-action="Index" class="nav-button">Ship</a>
     </div>
 </div>
 <div id="inventory-summary">
@@ -123,6 +123,7 @@
         <th>Type</th>
         <th>Quantity</th>
         <th>Cost</th>
+        <th>Purc Date</th>
         <th>Actions</th>
     </tr>
     @for(int i = 0; i < inventories.Count; i++)
@@ -133,6 +134,7 @@
             <td>@inventory.Type</td>
             <td>@inventory.Quantity</td>
             <td>@inventory.Cost</td>
+            <td>@inventory.ProcuredDate</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new {id=inventory.Id},new { @class="action-button"})
                 @Html.ActionLink("Delete", "Delete", new {id=inventory.Id},new { @class="action-button", @id="delete-button"})

@@ -97,6 +97,7 @@
 </div>
 <div class="form-container">
     <form asp-action="Edit" method="post">
+        <input asp-for="Id" hidden />
         <div>
             <span asp-validation-for=Name class="text-danger"></span>
         </div>

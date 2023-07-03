@@ -5,10 +5,10 @@ using Mongo.Interfaces;
 
 namespace inventory.view.Services
 {
-    public class SupplierServices : ISupplierService
+    public class SupplierService : ISupplierService
     {
         private readonly IMongoRepository<Supplier> _suppliersRepository;
-        public SupplierServices(IMongoRepository<Supplier> suppliersRepository)
+        public SupplierService(IMongoRepository<Supplier> suppliersRepository)
         {
             _suppliersRepository = suppliersRepository;
         }
@@ -24,7 +24,7 @@ namespace inventory.view.Services
         {
             List<Supplier> supplier = await _suppliersRepository.GetAsync();
             List<SupplierModel> supplierModels = new();
-            supplier.ForEach(sup => supplierModels.Add(new SupplierModel { Name = sup.Name, Email = sup.Email}));
+            supplier.ForEach(sup => supplierModels.Add(new SupplierModel {Id = sup.Id, Name = sup.Name, Email = sup.Email}));
             return supplierModels;
         }
         public async Task<bool> Create(SupplierModel  supplierModel)

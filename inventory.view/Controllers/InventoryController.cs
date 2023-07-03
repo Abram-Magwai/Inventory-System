@@ -34,6 +34,7 @@ namespace inventory.view.Controllers
             LowStock = _inventoryService.GetUpdates().Result;
             Inventories = _inventoryService.GetInventories().GetAwaiter().GetResult();
             CanReset = false;
+            DefaultInventories.Clear();
             CopyInventoriesLocal();
 
             ViewBag.Inventories = Inventories;
@@ -67,7 +68,19 @@ namespace inventory.view.Controllers
             if(!ModelState.IsValid) 
                 return View(viewName: "Add");
             await _inventoryService.New(inventory);
-            return View(viewName: "Index");
+
+            Summaries = _inventoryService.GetSummary().GetAwaiter().GetResult();
+            LowStock = _inventoryService.GetUpdates().Result;
+            Inventories = _inventoryService.GetInventories().GetAwaiter().GetResult();
+            CanReset = false;
+            CopyInventoriesLocal();
+
+            ViewBag.Inventories = Inventories;
+            ViewBag.Summaries = Summaries;
+            ViewBag.LowStock = LowStock;
+            ViewBag.canReset = CanReset;
+
+            return RedirectToAction(actionName: "Index");
         }
         [HttpPost]
         public IActionResult Update(InventoryModel inventory)
@@ -76,7 +89,12 @@ namespace inventory.view.Controllers
                 return View(viewName: "Edit");
 
             _inventoryService.Update(inventory);
-            return View(viewName: "Index");
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _inventoryService.Remove(id);
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public IActionResult SearchFilter(Search search)
@@ -124,18 +142,7 @@ namespace inventory.view.Controllers
         [HttpPost]
         public IActionResult ResetSearchFilter()
         {
-            Summaries = _inventoryService.GetSummary().GetAwaiter().GetResult();
-            LowStock = _inventoryService.GetUpdates().Result;
-            Inventories.Clear();
-            DefaultInventories.ForEach(inventory => Inventories.Add(inventory));
-            CanReset = false;
-
-            ViewBag.Summaries = Summaries;
-            ViewBag.LowStock = LowStock;
-            ViewBag.Inventories = Inventories;
-            ViewBag.CanReset = CanReset;
-
-            return View(viewName: "Index");
+            return RedirectToAction("Index");
         }
         private void CopyInventoriesLocal()
         {

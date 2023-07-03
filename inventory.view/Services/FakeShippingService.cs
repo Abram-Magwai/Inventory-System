@@ -9,5 +9,10 @@ namespace inventory.view.Services
         {
             return Task.Run(() => true);
         }
+
+        public bool InventoryIsAvailable(string inventoryName, int quantity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Mongo.Abstracts;
+using Mongo.Attributes;
 
 namespace inventory.view.Entities
 {
+    [CollectionName("Inventories")]
     public class Inventory : MongoCollection
     {
         public string SupplierId { get; set; } = null!;

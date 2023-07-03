@@ -17,12 +17,12 @@ namespace inventory.view.Attributes
             }
             catch (Exception e) { Console.WriteLine(e); return false; }
 
-            if (inventory.HasExpiry == "Yes")
-            {
-                if (inventory.ExpiryDate > DateTime.Now)
-                    return true;
-                return false;
-            }
+            //if (inventory.HasExpiry == "Yes")
+            //{
+            //    if (inventory.ExpiryDate > DateTime.Now)
+            //        return true;
+            //    return false;
+            //}
             return true;
         }
     }

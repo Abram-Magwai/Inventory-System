@@ -21,14 +21,16 @@ namespace inventory.view.Services
             Inventory inventory = (await _inventoriesRepository.GetAsync(id))!;
             if (inventory == null) return null;
 
-            string supplierName = _suppliersRepository.AsQueryable().Where(supplier => supplier.Id == id).FirstOrDefault()!.Name;
+            string supplierName = _suppliersRepository.AsQueryable().Where(supplier => supplier.Id == inventory.SupplierId).FirstOrDefault()!.Name;
             InventoryModel model = new InventoryModel
             {
+                Id = inventory.Id,
                 Name = inventory!.Name,
                 Type = inventory.Type,
                 Quantity = inventory.Quantity,
                 Cost = inventory.Cost,
                 Supplier = supplierName,
+                ProcuredDate = inventory.ProcuredDate.ToString("MM/dd/yyyy")
             };
             return model;
         }
@@ -48,10 +50,12 @@ namespace inventory.view.Services
             List<InventoryModel> inventoryModels = new List<InventoryModel>();
             inventories.ForEach(inventory => inventoryModels.Add(
                 new InventoryModel {
+                    Id = inventory.Id,
                     Name = inventory.Name,
                     Type = inventory.Type,
                     Quantity = inventory.Quantity,
-                    Cost = inventory.Cost
+                    Cost = inventory.Cost,
+                    ProcuredDate = inventory.ProcuredDate.ToString("MM/dd/yyyy")
                 }    
             ));
             return inventoryModels;
@@ -145,10 +149,11 @@ namespace inventory.view.Services
         }
         private Inventory? InventoryModelToInventory(InventoryModel inventoryModel)
         {
-            string supplierId = _suppliersRepository.AsQueryable().Where(supplier => supplier.Name == inventoryModel.Name).FirstOrDefault()!.Id;
+            string supplierId = _suppliersRepository.AsQueryable().Where(supplier => supplier.Name.Equals(inventoryModel.Supplier)).FirstOrDefault()!.Id;
             if (supplierId == null) return null;
             Inventory inventory = new Inventory
             {
+                Id = inventoryModel.Id,
                 SupplierId = supplierId,
                 Name = inventoryModel.Name,
                 Quantity = inventoryModel.Quantity,

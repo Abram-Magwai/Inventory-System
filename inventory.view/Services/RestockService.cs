@@ -17,8 +17,25 @@ namespace inventory.view.Services
             _inventoryRepository = inventoryRepository;
         }
 
-        public async Task<List<RestockModel>> GetRestocks() { throw new NotImplementedException(); }
-        public async Task<RestockModel> GetRestockByInventoryId(string id) { throw new NotImplementedException(); }
+        public async Task<List<RestockModel>> GetRestocks() {
+            var restocks = await _restockRepository.GetAsync();
+            var restockModels = new List<RestockModel>();
+            restocks.ForEach(async restock => {
+                string inventoryName = (await _inventoryRepository.GetAsync(restock.InventoryId))!.Name;
+                restockModels.Add(new RestockModel
+                {
+                    Id = restock.Id,
+                    Name = inventoryName,
+                    Quantity = restock.Quantity
+                });
+            });
+            return restockModels;
+        }
+        public async Task<RestockModel> GetRestockByInventoryId(string id) {
+            Restock restock = (Restock)_restockRepository.AsQueryable().Where(s => s.InventoryId == id);
+            string inventoryName = (await _inventoryRepository.GetAsync(restock.InventoryId))!.Name;
+            return new RestockModel { Id = restock.Id, Name = inventoryName, Quantity = restock.Quantity};
+        }
 
         public async Task<bool> Create(RestockModel restockModel)
         {

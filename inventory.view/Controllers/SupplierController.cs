@@ -29,12 +29,13 @@ namespace inventory.view.Controllers
         {
             if (!ModelState.IsValid) return View();
             await _supplierService.Create(supplierModel);
-            return View(viewName: "Index");
+            return RedirectToAction(actionName: "Index", controllerName: "Settings");
         }
         [HttpGet]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            SupplierModel = (await _supplierService.GetSupplier(id))!;
+            return View(SupplierModel);
         }
         public async Task<IActionResult> Edit(SupplierModel supplierModel)
         {
@@ -45,7 +46,7 @@ namespace inventory.view.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await _supplierService.Delete(id);
-            return View();
+            return RedirectToAction(actionName: "Index", controllerName: "Settings");
         }
     }
 }

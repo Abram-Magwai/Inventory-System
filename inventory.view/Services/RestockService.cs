@@ -41,8 +41,10 @@ namespace inventory.view.Services
         public async Task<bool> Create(RestockModel restockModel)
         {
             string inventoryId = _inventoryRepository.AsQueryable().Where(inventory => inventory.Name.Equals(restockModel.Name)).FirstOrDefault()!.Id;
-            if (inventoryId == null) return false;
-            Restock restock = new() { Id = string.Empty, InventoryId = inventoryId, Quantity = restockModel.Quantity};
+            Restock restock = _restockRepository.AsQueryable().Where(restock => restock.InventoryId == inventoryId).FirstOrDefault()!;
+            bool restockAlreadyExists = restock == null ? false : true;
+            if (inventoryId == null || restockAlreadyExists) return false;
+             restock = new() { Id = string.Empty, InventoryId = inventoryId, Quantity = restockModel.Quantity};
             await _restockRepository.CreateAsync(restock);
             return true;
         }

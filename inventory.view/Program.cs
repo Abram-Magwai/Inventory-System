@@ -10,10 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 services.Configure<DbSettings>(builder.Configuration.GetSection(nameof(DbSettings)));
 
-services.AddScoped<IInventoryService, FakeInventoryService>();
-services.AddScoped<IShippingService, FakeShippingService>();
-services.AddScoped<ISupplierService, FakeSupplierService>();
-services.AddScoped<IRestockService, FakeRestockService>();
+services.AddScoped<IInventoryService, InventoryService>();
+services.AddScoped<IShippingService, ShippingService>();
+services.AddScoped<ISupplierService, SupplierService>();
+services.AddScoped<IRestockService, RestockService>();
 services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
 builder.Services.AddControllersWithViews();

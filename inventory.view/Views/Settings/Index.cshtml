@@ -155,8 +155,8 @@
             <td>@supplier.Name</td>
             <td>@supplier.Email</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id=supplier.Id},new { @class="action-button"})
-                @Html.ActionLink("Delete", "Delete", new {id=supplier.Id},new { @class="action-button", @id="delete-button"})
+                @Html.ActionLink("Edit", "Edit", "Supplier", routeValues: new {id=supplier.Id}, new { @class="action-button"})
+                @Html.ActionLink("Delete", "Delete", "Supplier", new {id=supplier.Id},new { @class="action-button", @id="delete-button"})
             </td>
         </tr>
     }
@@ -177,8 +177,8 @@
             <td>@restock.Name</td>
             <td>@restock.Quantity</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id=restock.Id},new { @class="action-button"})
-                @Html.ActionLink("Delete", "Delete", new {id=restock.Id},new { @class="action-button", @id="delete-button"})
+                @Html.ActionLink("Edit", "Edit", "Restock", routeValues: new {id=restock.Id},new { @class="action-button"})
+                @Html.ActionLink("Delete", "Delete", "Restock", new {id=restock.Id},new { @class="action-button", @id="delete-button"})
             </td>
         </tr>
     }

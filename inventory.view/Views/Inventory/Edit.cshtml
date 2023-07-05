@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<Supplier> suppliers = ViewBag.Suppliers;
+    List<SupplierModel> suppliers = ViewBag.Suppliers;
 }
 <style>
     .page-title {
@@ -100,6 +100,7 @@
 </div>
 <div class="form-container">
     <form asp-controller="Inventory" asp-action="Update" method="post">
+        <input type="text" asp-for=Id hidden />
         <div>
             <span asp-validation-for=Name class="text-danger"></span>
         </div>
@@ -138,6 +139,7 @@
                 }
             </select>
         </div>
+        <!--
         <div class="input-container">
             <label for="hasexpiry">Expires</label>
             <select asp-for="HasExpiry" id="hasexpiry">
@@ -149,6 +151,7 @@
             <label for="expiry-date">Expiry Date</label>
             <input type="date" asp-for=ExpiryDate id="expiry-date" />
         </div>
+        -->
         <div class="form-actions-container">
             <a asp-controller="Inventory" asp-action="Index" class="nav-button">Cancel</a>
             <button type="submit" class="action-button">Update Inventory</button>

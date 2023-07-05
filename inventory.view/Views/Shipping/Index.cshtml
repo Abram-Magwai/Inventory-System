@@ -1,0 +1,115 @@
+﻿@using inventory.view.Controllers
+@{
+    ViewData["Title"] = "Ship";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<InventoryModel> inventories = ViewBag.Inventories;
+}
+
+<style>
+    #page-title {
+        margin: 20px 0px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .image-main-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .action-image-container, .action-image {
+        width: 200px;
+        height: 150px;
+    }
+
+    .action-image {
+        object-fit: cover;
+    }
+
+    .nav-button {
+        padding: 6px 20px;
+        background-color: #00639A;
+        border-radius: 5px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .action-button {
+        width: 72px;
+        height: 30px;
+        border-radius: 5px;
+        background: #00639A;
+        color: #FFFFFF;
+        font-size: 15px;
+        border: none;
+    }
+
+    a {
+        padding: 5px;
+    }
+
+    input, select {
+        height: 30px;
+        margin: 5px 0;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th {
+        background-color: rgba(217, 217, 217, 0.41);
+    }
+
+    td {
+        padding-bottom: 8px;
+    }
+
+    #delete-button {
+        background-color: rgba(154, 0, 0, 0.72);
+    }
+
+    @@media only screen and (max-width: 600px) {
+        table td {
+            font-size: 10px;
+        }
+
+        .action-button {
+            width: 56px;
+        }
+    }
+</style>
+
+<h5 class="page-title">Available inventory</h5>
+<div class="image-main-container">
+    <div class="action-image-container">
+        <img src="~/images/shipping.png" class="action-image" />
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+        <th>Purc Date</th>
+        <th>Action</th>
+    </tr>
+    @for (int i = 0; i < inventories.Count; i++)
+    {
+        var inventory = inventories[i];
+        <tr>
+            <td>@inventory.Name</td>
+            <td>@inventory.Type</td>
+            <td>@inventory.Quantity</td>
+            <td>@inventory.Cost</td>
+            <td>@inventory.ProcuredDate</td>
+            <td>
+                @Html.ActionLink("Ship", "Create", new {id=inventory.Id},new { @class="action-button"})
+            </td>
+        </tr>
+    }
+</table>

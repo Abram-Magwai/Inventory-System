@@ -36,20 +36,22 @@ namespace inventory.view.Controllers
             return RedirectToAction(actionName: "Index", controllerName: "Settings");
         }
         [HttpGet]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            RestockModel restock = (await _restockService.GetRestockByInventoryId(id))!;
+            if(restock == null) return View();
+            return View(restock);
         }
         public async Task<IActionResult> Edit(RestockModel restockModel)
         {
             if (!ModelState.IsValid) return View();
             await _restockService.Update(restockModel);
-            return View(viewName: "Index");
+            return RedirectToAction(actionName: "Index", controllerName: "Settings");
         }
         public async Task<IActionResult> Delete(string id)
         {
             await _restockService.Delete(id);
-            return View();
+            return RedirectToAction(actionName: "Index", controllerName: "Settings");
         }
     }
 }

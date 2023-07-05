@@ -116,7 +116,7 @@
             <select asp-for="Name" id="supplier">
                 @for (int i = 0; i < inventories.Count; i++)
                 {
-                    <option value="@inventories[0].Name">@inventories[i].Name</option>
+                    <option value="@inventories[i].Name">@inventories[i].Name</option>
                 }
             </select>
         </div>

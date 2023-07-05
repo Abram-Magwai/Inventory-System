@@ -4,7 +4,7 @@ namespace inventory.view.Models
 {
     public class SupplierModel
     {
-        public string? Id { get;set; }
+        public string Id { get; set; } = string.Empty;
         [Required]
         public string Name { get; set; } = null!;
         [Required]

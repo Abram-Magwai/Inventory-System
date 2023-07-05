@@ -5,7 +5,6 @@
 @{
     ViewData["Title"] = "ShipInventory";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<InventoryModel> inventories = ViewBag.Inventories;
 }
 <style>
     .page-title {
@@ -100,16 +99,14 @@
     </div>
 </div>
 <div class="form-container">
-    <form asp-controller="Inventory" asp-action="Index">
+    <form asp-controller="Shipping" asp-action="Create">
+        <input type="text" asp-for="InventoryId" hidden/>
+        <div>
+            <span asp-validation-for=Customer class="text-danger"></span>
+        </div>
         <div class="input-container">
-            <label asp-for="InventoryName"></label>
-            <select asp-for="InventoryName" id="name">
-                @for (int i = 0; i < inventories.Count; i++)
-                {
-                    <option value=inventories[i].Name>@inventories[i].Name</option>
-                }
-
-            </select>
+            <label asp-for="Customer"></label>
+            <input type="text" asp-for="Customer" id="customer" />
         </div>
 
         <div>
@@ -120,15 +117,13 @@
             <input asp-for="Quantity" id="quantity" />
         </div>
 
-        <div>
-            <span asp-validation-for=Customer class="text-danger"></span>
-        </div>
         <div class="input-container">
-            <label asp-for="Customer"></label>
-            <input type="text" asp-for="Customer" id="customer" />
+            <label asp-for="InventoryName"></label>
+            <input asp-for=InventoryName readonly />
         </div>
+
         <div class="form-actions-container">
-            <a asp-controller="Inventory" asp-action="Index" class="nav-button">Cancel</a>
+            <a asp-controller="Shipping" asp-action="Index" class="nav-button">Cancel</a>
             <button type="submit" class="action-button">Ship Inventory</button>
         </div>
     </form>

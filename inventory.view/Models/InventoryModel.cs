@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace inventory.view.Models
 {
-    [Future]
+    //[Future]
     public class InventoryModel
     {
         public string Id { get; set; } = null!;
@@ -18,8 +18,9 @@ namespace inventory.view.Models
         public double Cost { get; set; }
         [Required]
         public string Supplier { get; set; } = null!;
-        [Required]
-        public string HasExpiry { get; set; } = "No";
-        public DateTime ExpiryDate { get; set; } = DateTime.Now;
+        //[Required]
+        //public string HasExpiry { get; set; } = "No";
+        //public DateTime ExpiryDate { get; set; } = DateTime.Now.AddMonths(2);
+        public string ProcuredDate { get; set; } = string.Empty;
     }
 }

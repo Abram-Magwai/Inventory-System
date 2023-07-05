@@ -13,6 +13,5 @@ namespace Mongo.Abstracts
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = null!;
-        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

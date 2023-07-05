@@ -1,4 +1,5 @@
-﻿using inventory.view.Interfaces;
+﻿using inventory.view.Entities;
+using inventory.view.Interfaces;
 using inventory.view.Models;
 using inventory.view.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,30 @@ namespace inventory.view.Controllers
             _inventoryService = inventoryService;
             _shippingService = shippingService;
         }
-        [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Index()
         {
-            Inventories = await _inventoryService.GetInventories();
+
+            Inventories = _inventoryService.GetInventories().GetAwaiter().GetResult();
             ViewBag.Inventories = Inventories;
             return View();
         }
-        public IActionResult Create(ShipmentModel shipment)
+        [HttpGet]
+        public async Task<IActionResult> Create(string id)
         {
-            if (!ModelState.IsValid) return View(viewName: "Create");
-            _shippingService.Create(shipment);
-            return RedirectToAction(actionName: "Index", controllerName: "Inventory");
+            InventoryModel inventory = (await _inventoryService.GetInventoryById(id))!;
+            if (inventory == null) return View();
+            Shipment = new() { InventoryId = inventory.Id, InventoryName = inventory.Name, Quantity = inventory.Quantity };
+            return View(Shipment);
+        }
+        public async Task<IActionResult> Create(ShipmentModel shipment)
+        {
+            if (!ModelState.IsValid) {
+                Inventories = await _inventoryService.GetInventories();
+                ViewBag.Inventories = Inventories;
+                return View(viewName: "Create");
+            };
+            await _shippingService.Create(shipment);
+            return RedirectToAction(actionName: "Index", controllerName: "Shipping");
         }
     }
 }

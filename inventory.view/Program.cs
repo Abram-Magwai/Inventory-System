@@ -3,6 +3,9 @@ using inventory.view.Interfaces;
 using inventory.view.Services;
 using Mongo.Interfaces;
 using Mongo.Models;
+using jsreport.AspNetCore;
+using jsreport.Binary;
+using jsreport.Local;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,7 @@ services.AddScoped<IShippingService, ShippingService>();
 services.AddScoped<ISupplierService, SupplierService>();
 services.AddScoped<IRestockService, RestockService>();
 services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).KillRunningJsReportProcesses().AsUtility().Create());
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();

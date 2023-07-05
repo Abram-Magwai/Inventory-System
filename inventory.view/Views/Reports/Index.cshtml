@@ -1,0 +1,130 @@
+﻿@model ReportModel
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <link href="~/css/report.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+        form {
+            margin-top: 26px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            background-color: rgba(217, 217, 217, 0.41);
+        }
+
+        td {
+            padding-bottom: 8px;
+        }
+
+        @@media only screen and (max-width: 600px) {
+            table td {
+                font-size: 10px;
+            }
+
+            .action-button {
+                width: 56px;
+            }
+        }
+    </style>
+    <table>
+        <tr style="margin-bottom: 50px">
+            <td>
+                <img src="~/images/reports.png" width="55px" height="55px"/>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right">Created On: @DateTime.Now.ToShortDateString()</td>
+        </tr>
+    </table>
+    <h4>Suppliers</h4>
+    @if(Model.Suppliers.Count > 0)
+    {
+        <table style="max-width: 400px">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            @foreach (var supplier in Model.Suppliers)
+            {
+                <tr>
+                    <td>@supplier.Name</td>
+                    <td>@supplier.Email</td>
+                </tr>
+            }
+        </table>
+    }
+    <h4>Inventory Restock Plans</h4>
+    @if (Model.Restocks.Count > 0)
+    {
+        <table style="max-width: 400px">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+            </tr>
+            @foreach (var restock in Model.Restocks)
+            {
+                <tr>
+                    <td>@restock.Name</td>
+                    <td>@restock.Quantity</td>
+                </tr>
+            }
+        </table>
+    }else
+    {
+        <p>No Restock Plans Available</p>
+    }
+    <h4>Inventories</h4>
+    @if (Model.Inventories.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+                <th>Purc Date</th>
+            </tr>
+            @foreach (var inventory in Model.Inventories)
+            {
+                <tr>
+                    <td>@inventory.Name</td>
+                    <td>@inventory.Type</td>
+                    <td>@inventory.Quantity</td>
+                    <td>@inventory.Cost</td>
+                    <td>@inventory.ProcuredDate</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <table>
+                        <tr>
+                            <td style="font-weight: bolder;">Total Inventory:</td>
+                            <td>@Model.InventorySummary.TotalInventory</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bolder;">Total Cost(R):</td>
+                            <td>@Model.InventorySummary.TotalCost</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    }else {
+        <p>No Inventories Available</p>
+    }
+</body>
+</html>

@@ -130,9 +130,8 @@
         <div class="input-container">
             <label for="supplier">Supplier</label>
             <select name="supplier" id="supplier">
-                @for(int i = 0; i < suppliers.Count; i++)
-                {
-                    <option value="@suppliers[0].Name">@suppliers[i].Name</option>                    
+                @foreach(var supplier in suppliers) {
+                    <option value="@supplier.Name">@supplier.Name</option>
                 }
             </select>
         </div>

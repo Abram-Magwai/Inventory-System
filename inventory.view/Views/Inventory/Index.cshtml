@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     InventorySummary inventorySummary = ViewBag.Summaries;
-    List<string> lowStock = ViewBag.LowStock;
+    List<string> lowStocks = ViewBag.LowStock;
     List<InventoryModel> inventories = ViewBag.Inventories;
 }
 
@@ -91,13 +91,13 @@
 
 <div id="updates-container">
     <h6>Inventory Updates</h6>
-    @if(lowStock.Count == 0)
+    @if(lowStocks.Count == 0)
     {
         <span>No updates available</span>
     }else {
-        for(int i = 0; i < lowStock.Count; i++)
+        foreach(var lowStock in lowStocks)
         {
-            <p>@lowStock[i]</p>
+            <p>@lowStock</p>
         }
     }
 </div>
@@ -126,9 +126,8 @@
         <th>Purc Date</th>
         <th>Actions</th>
     </tr>
-    @for(int i = 0; i < inventories.Count; i++)
+    @foreach(var inventory in inventories)
     {
-        var inventory = inventories[i];
         <tr>
             <td>@inventory.Name</td>
             <td>@inventory.Type</td>

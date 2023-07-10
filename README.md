@@ -37,7 +37,7 @@ To run the Inventory Management System on your local machine, follow these steps
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/inventory-management.git
+   git clone https://github.com/Abram-Magwai/Inventory-System.git
    ```
 
 2. Install the necessary dependencies.
